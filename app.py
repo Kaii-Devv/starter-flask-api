@@ -84,7 +84,7 @@ def build(ini,tok):
 
 
 @app.route('/v/<tok>')
-def unduh(tok):
+def unduhv(tok):
   try:
       proxy = requests.get(
           'https://api.proxyscrape.com/?request=displayproxies&proxytype=socks5&timeout=10000&country=all&ssl=all&anonymity=all').text
