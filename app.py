@@ -13,6 +13,9 @@ database={}
 def hello_world():
     return 'Hello, world!<br>Myname Muhamad Idris'
 def check(proxy,tok,hasil,pool):
+  global database,antre
+  if tok in database:return
+  if tok in antre:return
   if len(str(hasil))>5:return
   proxy = {
     'http': 'socks5://'+proxy,
@@ -27,6 +30,7 @@ def check(proxy,tok,hasil,pool):
         link=host+"/pass_md5/"+re.search("/pass_md5/(.*?)', function",str(log2.text)).group(1)
         result = ses.get(link,headers={"Host": host.replace('https://',''),"referer": log2.url,"accept-encoding": "gzip","cookie": "lang=1","user-agent": "okhttp/4.9.0"},timeout=3).text+"".join([random.choice('abcdefghijklmnopqrstuvwxyz1234567890') for _ in range(10)])+"?token="+link.split("/")[-1]+"&expiry=1"+"".join([str(random.randrange(1,9)) for _ in range(12)])
         ini = ses.get(result,headers={'Range': 'bytes=0-', 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/83.0.144 Chrome/77.0.3865.144 Safari/537.36', 'Referer': 'https://dooood.com/', 'Connection': 'Keep-Alive', 'Accept-Encoding': 'gzip'},stream=True,timeout=3)
+        antre.append(tok)
         hasil.update({'response':ini,'headers':ini.headers})
         pool.shutdown()
     else:pass
@@ -53,19 +57,17 @@ def unduh():
       try:
           heads = hasil['headers']
           threading.Thread(target=build,args=(hasil['response'],tok)).start()
-          return {'runtimeAPI':runtime,'result':'generating','size':str(hasil['headers']['Content-Length']),'warning':'wait for generate content'}
+          return {'runtimeAPI':runtime,'result':'sending','size':str(hasil['headers']['Content-Length']),'warning':'wait for generate content'}
       except Exception as e:
           if tok in database:
               return {'runtimeAPI':runtime,'result':'succes','size':str(len(database[tok]))}
-      
-      
-          
+          elif tok in antre:return {'runtimeAPI':runtime,'result':'generating','size':str(len(database[tok]))}
 
   except Exception as e:
       return {'result': str(e)}
 
 def build(ini,tok):
-    global database
+    global database,antre
     achunk=b''
     try:
         
@@ -73,3 +75,12 @@ def build(ini,tok):
             achunk+=chunk
     except Exception as e:pass
     database.update({tok:achunk})
+    antre.remove(tok)
+@app.route('/e/<judul>')
+def read(judul):
+    global database,antre
+    if judul in antre:
+        return {"warning":'content is loading'}
+    elif judul in database:
+        return Response(database[judul], content_type='video/mp4')
+    else:return {'warning':'video not load'}
