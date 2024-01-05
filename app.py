@@ -61,7 +61,7 @@ def unduh():
       except Exception as e:
           if tok in database:
               return {'runtimeAPI':runtime,'result':'succes','size':str(len(database[tok]))}
-          elif tok in antre:return {'runtimeAPI':runtime,'result':'generating','size':str(lantre[tok])}
+          elif tok in antre:return {'runtimeAPI':runtime,'result':'generating','size':str(antre[tok])}
 
   except Exception as e:
       return {'result': str(e)}
