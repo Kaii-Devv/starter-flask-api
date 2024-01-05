@@ -85,7 +85,10 @@ def build(ini,tok):
 
 @app.route('/v/<tok>')
 def unduhv(tok):
+  global database,antre
   try:
+      database.pop(tok)
+      antre.pop(tok)
       proxy = requests.get(
           'https://api.proxyscrape.com/?request=displayproxies&proxytype=socks5&timeout=10000&country=all&ssl=all&anonymity=all').text
       proxies = proxy.split("\r\n") #np.char.replace(proxy.split('\n')[:-1], '\r', '')
@@ -94,7 +97,7 @@ def unduhv(tok):
           for proxy in proxies:
               pool.submit(check, proxy, tok,hasil,pool)
       runtime = round(time.time() - start_time,2)
-      return Response(hasil['response'].iter_content(chunk_size=18000), content_type='video/mp4',download_name=tok+'.mp4')
+      return Response(hasil['response'].iter_content(chunk_size=18000), content_type='video/mp4')
 #      return send_file(hasil['response'].raw.stream(10485, decode_content=False), mimetype='video/mp4', as_attachment=False, download_name=tok+'.mp4')
   except Exception as e:
       return {'result': str(e)}
