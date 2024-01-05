@@ -71,7 +71,7 @@ def build(ini,tok):
     achunk=b''
     try:
         
-        for chunk in ini.raw.stream(10485, decode_content=False):
+        for chunk in ini.raw.stream(100485, decode_content=False):
             achunk+=chunk
             antre[tok]+=len(chunk)
     except Exception as e:pass
