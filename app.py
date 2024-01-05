@@ -60,7 +60,7 @@ def unduh():
           return {'runtimeAPI':runtime,'result':'sending','size':str(hasil['headers']['Content-Length']),'warning':'wait for generate content'}
       except Exception as e:
           if tok in database:
-              return {'runtimeAPI':runtime,'result':'succes','size':str(len(database[tok]))}
+              return {'runtimeAPI':runtime,'result':'succes'}
           elif tok in antre:return {'runtimeAPI':runtime,'result':'generating','size':str(antre[tok])}
 
   except Exception as e:
@@ -85,7 +85,7 @@ def read(judul):
         if judul in antre:
             return {"warning":'content is loading'}
         elif judul in database:
-            return send_file(database[judul], mimetype='video/mp4', as_attachment=False, download_name=judul+'.mp4')
+            return send_file(database[judul], mimetype='video/mp4', as_attachment=True, download_name=judul+'.mp4')
 #return Response(database[judul], content_type='video/mp4')
         else:return {'warning':'video not load'}
     except Exception as e:return {'warning':str(e)}
