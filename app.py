@@ -99,8 +99,8 @@ def unduhv(tok):
           for proxy in proxies:
               pool.submit(check, proxy, tok,hasil,pool)
       runtime = round(time.time() - start_time,2)
-      return Response(hasil['response'].iter_content(chunk_size=18000), content_type='video/mp4')
-#      return send_file(hasil['response'].raw.stream(10485, decode_content=False), mimetype='video/mp4', as_attachment=False, download_name=tok+'.mp4')
+#      return Response(hasil['response'].iter_content(chunk_size=18000), content_type='video/mp4')
+      return send_file(hasil['response'].raw, mimetype='video/mp4', as_attachment=True, download_name=tok+'.mp4')
   except Exception as e:
       return {'result': str(e)}
 
