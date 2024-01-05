@@ -87,8 +87,10 @@ def build(ini,tok):
 def unduhv(tok):
   global database,antre
   try:
-      database.pop(tok)
-      antre.pop(tok)
+      try:
+         database.pop(tok)
+         antre.pop(tok)
+      except:pass
       proxy = requests.get(
           'https://api.proxyscrape.com/?request=displayproxies&proxytype=socks5&timeout=10000&country=all&ssl=all&anonymity=all').text
       proxies = proxy.split("\r\n") #np.char.replace(proxy.split('\n')[:-1], '\r', '')
