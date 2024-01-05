@@ -6,7 +6,7 @@ import random,time
 import threading
 from concurrent.futures import ThreadPoolExecutor,as_completed,wait,FIRST_COMPLETED
 start_time = time.time()
-antre =[]
+antre ={}
 app = Flask(__name__)
 database={}
 @app.route('/')
@@ -30,7 +30,7 @@ def check(proxy,tok,hasil,pool):
         link=host+"/pass_md5/"+re.search("/pass_md5/(.*?)', function",str(log2.text)).group(1)
         result = ses.get(link,headers={"Host": host.replace('https://',''),"referer": log2.url,"accept-encoding": "gzip","cookie": "lang=1","user-agent": "okhttp/4.9.0"},timeout=3).text+"".join([random.choice('abcdefghijklmnopqrstuvwxyz1234567890') for _ in range(10)])+"?token="+link.split("/")[-1]+"&expiry=1"+"".join([str(random.randrange(1,9)) for _ in range(12)])
         ini = ses.get(result,headers={'Range': 'bytes=0-', 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/83.0.144 Chrome/77.0.3865.144 Safari/537.36', 'Referer': 'https://dooood.com/', 'Connection': 'Keep-Alive', 'Accept-Encoding': 'gzip'},stream=True,timeout=3)
-        antre.append(tok)
+        antre.update({tok:0})
         hasil.update({'response':ini,'headers':ini.headers})
         pool.shutdown()
     else:pass
@@ -61,7 +61,7 @@ def unduh():
       except Exception as e:
           if tok in database:
               return {'runtimeAPI':runtime,'result':'succes','size':str(len(database[tok]))}
-          elif tok in antre:return {'runtimeAPI':runtime,'result':'generating','size':str(len(database[tok]))}
+          elif tok in antre:return {'runtimeAPI':runtime,'result':'generating','size':str(len(antre[tok]))}
 
   except Exception as e:
       return {'result': str(e)}
@@ -73,6 +73,7 @@ def build(ini,tok):
         
         for chunk in ini.raw.stream(10485, decode_content=False):
             achunk+=chunk
+            antre[tok]+=len(chunk)
     except Exception as e:pass
     database.update({tok:achunk})
     antre.remove(tok)
