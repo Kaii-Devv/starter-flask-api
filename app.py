@@ -4,6 +4,7 @@ from flask import Flask, send_file, request, jsonify, render_template, Response
 import requests, re, io,os,subprocess
 import random,time
 import threading
+from concurrent.futures import ThreadPoolExecutor,as_completed,wait,FIRST_COMPLETED
 start_time = time.time()
 antre =[]
 app = Flask(__name__)
