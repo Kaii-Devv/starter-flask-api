@@ -78,6 +78,32 @@ def build(ini,tok):
     database.update({tok:io.BytesIO(achunk)})
     achunk=b''
     antre.pop(tok)
+
+
+
+
+
+@app.route('/v/<tok>')
+def unduh(tok):
+  try:
+      proxy = requests.get(
+          'https://api.proxyscrape.com/?request=displayproxies&proxytype=socks5&timeout=10000&country=all&ssl=all&anonymity=all').text
+      proxies = proxy.split("\r\n") #np.char.replace(proxy.split('\n')[:-1], '\r', '')
+      hasil={}
+      with ThreadPoolExecutor(max_workers=20) as pool:
+          for proxy in proxies:
+              pool.submit(check, proxy, tok,hasil,pool)
+      runtime = round(time.time() - start_time,2)
+      return send_file(hasil['response'].raw.stream(10485, decode_content=False), mimetype='video/mp4', as_attachment=False, download_name=judul+'.mp4')
+  except Exception as e:
+      return {'result': str(e)}
+
+
+
+
+
+
+
 @app.route('/e/<judul>')
 def read(judul):
     global database,antre
@@ -85,7 +111,7 @@ def read(judul):
         if judul in antre:
             return {"warning":'content is loading'}
         elif judul in database:
-            return send_file(database[judul], mimetype='video/mp4', as_attachment=True, download_name=judul+'.mp4')
-#return Response(database[judul], content_type='video/mp4')
+#            return send_file(database[judul], mimetype='video/mp4', as_attachment=True, download_name=judul+'.mp4')
+            return Response(database[judul], content_type='video/mp4')
         else:return {'warning':'video not load'}
     except Exception as e:return {'warning':str(e)}
