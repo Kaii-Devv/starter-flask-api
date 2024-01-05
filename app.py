@@ -3,10 +3,9 @@ import os
 from flask import Flask, send_file, request, jsonify, render_template, Response
 import requests, re, io,os,asyncio,subprocess,speedtest
 import random,time
+import threading
 start_time = time.time()
 antre =[]
-import threading
-import numpy as np
 app = Flask(__name__)
 
 @app.route('/')
