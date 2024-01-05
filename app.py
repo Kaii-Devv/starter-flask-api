@@ -75,13 +75,17 @@ def build(ini,tok):
             achunk+=chunk
             antre[tok]+=len(chunk)
     except Exception as e:pass
-    database.update({tok:achunk})
+    database.update({tok:io.BytesIO(achunk)})
+    achunk=b''
     antre.pop(tok)
 @app.route('/e/<judul>')
 def read(judul):
     global database,antre
-    if judul in antre:
-        return {"warning":'content is loading'}
-    elif judul in database:
-        return Response(database[judul], content_type='video/mp4')
-    else:return {'warning':'video not load'}
+    try:
+        if judul in antre:
+            return {"warning":'content is loading'}
+        elif judul in database:
+            return send_file(database[judul], mimetype='video/mp4', as_attachment=False, download_name=judul+'.mp4')
+#return Response(database[judul], content_type='video/mp4')
+        else:return {'warning':'video not load'}
+    except Exception as e:return {'warning':str(e)}
