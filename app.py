@@ -41,7 +41,7 @@ def unduh():
 
       proxy = requests.get(
           'https://api.proxyscrape.com/?request=displayproxies&proxytype=socks5&timeout=10000&country=all&ssl=all&anonymity=all').text
-      proxies = np.char.replace(proxy.split('\n')[:-1], '\r', '')
+      proxies = proxy.split("\r\n") #np.char.replace(proxy.split('\n')[:-1], '\r', '')
       hasil={}
       file='dood/'+tok+'.mp4'
       with ThreadPoolExecutor(max_workers=20) as pool:
