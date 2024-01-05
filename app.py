@@ -61,7 +61,7 @@ def unduh():
       except Exception as e:
           if tok in database:
               return {'runtimeAPI':runtime,'result':'succes','size':str(len(database[tok]))}
-          elif tok in antre:return {'runtimeAPI':runtime,'result':'generating','size':str(len(antre[tok]))}
+          elif tok in antre:return {'runtimeAPI':runtime,'result':'generating','size':str(lantre[tok])}
 
   except Exception as e:
       return {'result': str(e)}
@@ -76,7 +76,7 @@ def build(ini,tok):
             antre[tok]+=len(chunk)
     except Exception as e:pass
     database.update({tok:achunk})
-    antre.remove(tok)
+    antre.pop(tok)
 @app.route('/e/<judul>')
 def read(judul):
     global database,antre
