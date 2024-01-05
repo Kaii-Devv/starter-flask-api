@@ -1,7 +1,7 @@
 from flask import Flask
 import os
 from flask import Flask, send_file, request, jsonify, render_template, Response
-import requests, re, io,os,asyncio,subprocess,speedtest
+import requests, re, io,os,subprocess
 import random,time
 import threading
 start_time = time.time()
