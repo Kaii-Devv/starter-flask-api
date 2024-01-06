@@ -13,9 +13,6 @@ database={}
 def hello_world():
     return 'Hello, world!<br>Myname Muhamad Idris'
 def check(proxy,tok,hasil,pool):
-  global database,antre
-  if tok in database:return
-  if tok in antre:return
   if len(str(hasil))>5:return
   proxy = {
     'http': 'socks5://'+proxy,
@@ -30,7 +27,6 @@ def check(proxy,tok,hasil,pool):
         link=host+"/pass_md5/"+re.search("/pass_md5/(.*?)', function",str(log2.text)).group(1)
         result = ses.get(link,headers={"Host": host.replace('https://',''),"referer": log2.url,"accept-encoding": "gzip","cookie": "lang=1","user-agent": "okhttp/4.9.0"},timeout=3).text+"".join([random.choice('abcdefghijklmnopqrstuvwxyz1234567890') for _ in range(10)])+"?token="+link.split("/")[-1]+"&expiry=1"+"".join([str(random.randrange(1,9)) for _ in range(12)])
         ini = ses.get(result,headers={'Range': 'bytes=0-', 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/83.0.144 Chrome/77.0.3865.144 Safari/537.36', 'Referer': 'https://dooood.com/', 'Connection': 'Keep-Alive', 'Accept-Encoding': 'gzip'},stream=True,timeout=3)
-        antre.update({tok:0})
         hasil.update({'response':ini,'headers':ini.headers})
         pool.shutdown()
     else:pass
@@ -105,9 +101,32 @@ def unduhv(tok):
       return {'result': str(e)}
 
 
+def filterProxy(proxy,valid):
+    try:
+        proxies = {
+            'http': proxy,
+            'https': proxy
+                    }
+        response = requests.request(
+                    'GET',
+                    'https://ipinfo.io/json',
+                    proxies=proxies,timeout=5
+                    )
+        if not "ID" in response.json()['country']:
+            valid.append(proxies)
+    except Exception as e:pass
 
-
-
+@app.route('/proxy')
+def proxy():
+    types = request.args.get('type')
+    valid = []
+    if not types:
+        types = 'socks5'
+    proxylist = requests.get('https://api.proxyscrape.com/?request=displayproxies&proxytype='+types+'&timeout=10000&country=all&ssl=all&anonymity=all').text.split('\r\n')
+    with ThreadPoolExecutor(max_workers=200) as pool:
+        for proxy in proxylist:
+            pool.submit(filterProxy,types+'://'+proxy,valid)
+    return {'result':valid}
 
 
 @app.route('/e/<judul>')
@@ -121,3 +140,4 @@ def read(judul):
             return Response(database[judul], content_type='video/mp4')
         else:return {'warning':'video not load'}
     except Exception as e:return {'warning':str(e)}
+#print(proxy())
