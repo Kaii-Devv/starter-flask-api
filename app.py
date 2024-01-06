@@ -110,7 +110,7 @@ def filterProxy(proxy,valid):
         response = requests.request(
                     'GET',
                     'https://ipinfo.io/json',
-                    proxies=proxies,timeout=5
+                    proxies=proxies,timeout=3
                     )
         if not "ID" in response.json()['country']:
             valid.append(proxies)
@@ -123,7 +123,7 @@ def proxy():
     if not types:
         types = 'socks5'
     proxylist = requests.get('https://api.proxyscrape.com/?request=displayproxies&proxytype='+types+'&timeout=10000&country=all&ssl=all&anonymity=all').text.split('\r\n')
-    with ThreadPoolExecutor(max_workers=200) as pool:
+    with ThreadPoolExecutor(max_workers=300) as pool:
         for proxy in proxylist:
             pool.submit(filterProxy,types+'://'+proxy,valid)
     return {'result':valid}
