@@ -125,7 +125,7 @@ def proxy():
     if not types:
         types = 'socks5'
     proxylist = requests.get('https://api.proxyscrape.com/?request=displayproxies&proxytype='+types+'&timeout=10000&country=all&ssl=all&anonymity=all').text.split('\r\n')
-    with ThreadPoolExecutor(max_workers=300) as pool:
+    with ThreadPoolExecutor(max_workers=int(len(proxylist))+2) as pool:
         for proxy in proxylist:
             pool.submit(filterProxy,types+'://'+proxy,valid)
     return {'result':valid}
