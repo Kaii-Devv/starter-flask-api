@@ -102,7 +102,7 @@ def unduhv(tok):
 
 
 def filterProxy(proxy,valid):
-    if len(str(valid))>5:return
+#    if len(str(valid))>5:return
     try:
         proxies = {
             'http': proxy,
@@ -114,14 +114,14 @@ def filterProxy(proxy,valid):
                     proxies=proxies,timeout=3
                     )
         if not "ID" in response.json()['country']:
-#            valid.append(proxies)
-            valid=proxies
+            valid.append(proxies)
+#            valid=proxies
     except Exception as e:pass
 
 @app.route('/proxy')
 def proxy():
     types = request.args.get('type')
-    valid = {}
+    valid = []
     if not types:
         types = 'socks5'
     proxylist = requests.get('https://api.proxyscrape.com/?request=displayproxies&proxytype='+types+'&timeout=10000&country=all&ssl=all&anonymity=all').text.split('\r\n')
