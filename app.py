@@ -48,7 +48,7 @@ def unduh():
           for proxy in proxies:
               pool.submit(check, proxy, tok,hasil,pool)
       runtime = round(time.time() - start_time,2)
-      return {'url':hasil['response'],'proxy':hasil['proxy']}
+      return {'url':hasil['response'],'proxy':hasil['proxy']['http']}
 
 #      try:
 #          heads = hasil['headers']
