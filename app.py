@@ -49,16 +49,16 @@ def unduh():
               pool.submit(check, proxy, tok,hasil,pool)
       runtime = round(time.time() - start_time,2)
       return {'url':hasil['response'],'proxy':hasil['proxy']}
-"""
-      try:
-          heads = hasil['headers']
-          threading.Thread(target=build,args=(hasil['response'],tok)).start()
-          return {'runtimeAPI':runtime,'result':'sending','size':str(hasil['headers']['Content-Length']),'warning':'wait for generate content'}
-      except Exception as e:
-          if tok in database:
-              return {'runtimeAPI':runtime,'result':'succes'}
-          elif tok in antre:return {'runtimeAPI':runtime,'result':'generating','size':str(antre[tok])}
-"""
+
+#      try:
+#          heads = hasil['headers']
+#          threading.Thread(target=build,args=(hasil['response'],tok)).start()
+#          return {'runtimeAPI':runtime,'result':'sending','size':str(hasil['headers']['Content-Length']),'warning':'wait for generate content'}
+#      except Exception as e:
+#          if tok in database:
+#              return {'runtimeAPI':runtime,'result':'succes'}
+#          elif tok in antre:return {'runtimeAPI':runtime,'result':'generating','size':str(antre[tok])}
+
   except Exception as e:
       return {'result': str(e)}
 
