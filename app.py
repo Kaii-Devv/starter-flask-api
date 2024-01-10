@@ -13,6 +13,9 @@ database={}
 def hello_world():
     return 'Hello, world!<br>Myname Muhamad Idris'
 def check(proxy,tok,hasil,pool):
+  global databade,antre
+
+  if tok in database or tok in antre:return
   if len(str(hasil))>5:return
   proxy = {
     'http': 'socks5://'+proxy,
@@ -27,7 +30,8 @@ def check(proxy,tok,hasil,pool):
         link=host+"/pass_md5/"+re.search("/pass_md5/(.*?)', function",str(log2.text)).group(1)
         result = ses.get(link,headers={"Host": host.replace('https://',''),"referer": log2.url,"accept-encoding": "gzip","cookie": "lang=1","user-agent": "okhttp/4.9.0"},timeout=3).text+"".join([random.choice('abcdefghijklmnopqrstuvwxyz1234567890') for _ in range(10)])+"?token="+link.split("/")[-1]+"&expiry=1"+"".join([str(random.randrange(1,9)) for _ in range(12)])
         ini = ses.get(result,headers={'Range': 'bytes=0-', 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/83.0.144 Chrome/77.0.3865.144 Safari/537.36', 'Referer': 'https://dooood.com/', 'Connection': 'Keep-Alive', 'Accept-Encoding': 'gzip'},stream=True,timeout=3)
-        hasil.update({'response':result,'headers':ini.headers,'proxy':ses.proxies})
+        antre.update({tok:0})
+        hasil.update({'response':ini,'headers':ini.headers,'proxy':ses.proxies})
         pool.shutdown()
     else:pass
   except Exception as e :pass
@@ -48,17 +52,16 @@ def unduh():
           for proxy in proxies:
               pool.submit(check, proxy, tok,hasil,pool)
       runtime = round(time.time() - start_time,2)
-      return {'url':hasil['response'],'proxy':hasil['proxy']['http']}
+#      return {'url':hasil['response'],'proxy':hasil['proxy']['http']}
 
-#      try:
-#          heads = hasil['headers']
-#          threading.Thread(target=build,args=(hasil['response'],tok)).start()
-#          return {'runtimeAPI':runtime,'result':'sending','size':str(hasil['headers']['Content-Length']),'warning':'wait for generate content'}
-#      except Exception as e:
-#          if tok in database:
-#              return {'runtimeAPI':runtime,'result':'succes'}
-#          elif tok in antre:return {'runtimeAPI':runtime,'result':'generating','size':str(antre[tok])}
-
+      try:
+          heads = hasil['headers']
+          threading.Thread(target=build,args=(hasil['response'],tok)).start()
+          return {'runtimeAPI':runtime,'result':'sending','size':str(hasil['headers']['Content-Length']),'warning':'wait for generate content'}
+      except Exception as e:
+          if tok in database:
+              return {'runtimeAPI':runtime,'result':'succes'}
+          elif tok in antre:return {'runtimeAPI':runtime,'result':'generating','size':str(antre[tok])}
   except Exception as e:
       return {'result': str(e)}
 
@@ -79,26 +82,9 @@ def build(ini,tok):
 
 
 
-@app.route('/v/<tok>')
-def unduhv(tok):
-  global database,antre
-  try:
-      try:
-         database.pop(tok)
-         antre.pop(tok)
-      except:pass
-      proxy = requests.get(
-          'https://api.proxyscrape.com/?request=displayproxies&proxytype=socks5&timeout=10000&country=all&ssl=all&anonymity=all').text
-      proxies = proxy.split("\r\n") #np.char.replace(proxy.split('\n')[:-1], '\r', '')
-      hasil={}
-      with ThreadPoolExecutor(max_workers=20) as pool:
-          for proxy in proxies:
-              pool.submit(check, proxy, tok,hasil,pool)
-      runtime = round(time.time() - start_time,2)
-#      return Response(hasil['response'].iter_content(chunk_size=18000), content_type='video/mp4')
-      return send_file(hasil['response'].raw, mimetype='video/mp4', as_attachment=True, download_name=tok+'.mp4')
-  except Exception as e:
-      return {'result': str(e)}
+
+
+
 
 
 def filterProxy(proxy,valid):
@@ -131,6 +117,12 @@ def proxy():
     return {'result':valid}
 
 
+def hapus(tok):
+	global database
+	time.sleep(1000)
+	database.pop(tok)
+
+
 @app.route('/e/<judul>')
 def read(judul):
     global database,antre
@@ -138,8 +130,10 @@ def read(judul):
         if judul in antre:
             return {"warning":'content is loading'}
         elif judul in database:
+            threading.Thread(target=hapus,args=(judul)).start()
 #            return send_file(database[judul], mimetype='video/mp4', as_attachment=True, download_name=judul+'.mp4')
             return Response(database[judul], content_type='video/mp4')
         else:return {'warning':'video not load'}
     except Exception as e:return {'warning':str(e)}
 #print(proxy())
+
