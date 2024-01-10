@@ -130,7 +130,7 @@ def read(judul):
         if judul in antre:
             return {"warning":'content is loading'}
         elif judul in database:
-            threading.Thread(target=hapus,args=(judul)).start()
+          #  threading.Thread(target=hapus,args=judul).start()
 #            return send_file(database[judul], mimetype='video/mp4', as_attachment=True, download_name=judul+'.mp4')
             return Response(database[judul], content_type='video/mp4')
         else:return {'warning':'video not load'}
