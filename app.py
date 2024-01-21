@@ -41,15 +41,19 @@ def proxy():
             pool.submit(filterProxy,types+'://'+proxy,valid)
     return {'result':valid}
 
-@app.route("/uptime")
 def uptime():
     upprox = requests.get("https://pyipi.cyclic.app/proxy").json()["result"]
     while True:
         proxy = random.choice(upprox)
         if len(upprox)<2:break
         try:
-            return requests.get("https://nfd2st-45669.csb.app",proxies=proxy,timeout=3).json()
+            print(requests.get("https://nfd2st-45669.csb.app",proxies=proxy,timeout=3).json())
         except:
             print(proxy)
             upprox.remove(proxy)
-    return "err"
+    print(upprox)
+
+@app.route("/uptime")
+def up():
+    threading.Thread(target=uptime).start()
+    return "prodess"
