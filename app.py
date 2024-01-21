@@ -46,10 +46,10 @@ def uptime():
     upprox = proxy()["result"]
     print(upprox)
     while True:
-        proxy = random.choice(upprox)
+        proxyp = random.choice(upprox)
         if len(upprox)<2:break
         try:
-            return requests.get("https://nfd2st-45669.csb.app",proxies=proxy,timeout=3).json()
+            return requests.get("https://nfd2st-45669.csb.app",proxies=proxyp,timeout=3).json()
             break
         except Exception as e:
             print(e)
