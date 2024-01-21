@@ -5,14 +5,10 @@ import requests, re, io,os,subprocess
 import random,time
 import threading
 from concurrent.futures import ThreadPoolExecutor,as_completed,wait,FIRST_COMPLETED
-start_time = time.time()
-antre ={}
-upprox=[]
 app = Flask(__name__)
-database={}
 @app.route('/')
 def hello_world():
-    return 'Hello, world!<br>Myname Muhamad Idris'
+    return 'Hello guys!<br>Myname Muhamad Idris<br>API ini full menggunakan flask python'
 
 def filterProxy(proxy,valid):
     try:
@@ -44,7 +40,6 @@ def proxy():
 @app.route("/uptime")
 def uptime():
     upprox = proxy()["result"]
-    print(upprox)
     while True:
         proxyp = random.choice(upprox)
         if len(upprox)<2:break
@@ -54,9 +49,6 @@ def uptime():
         except Exception as e:
             print(e)
             upprox.remove(proxyp)
-    print(upprox)
-#def c():
- #   threading.Thread(target=uptime).start()
-  #  return "prodess"
+    return {"error":upprox}
 
 
