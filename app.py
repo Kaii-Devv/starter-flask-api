@@ -48,9 +48,11 @@ def uptime():
         upprox += requests.get("https://pyipi.cyclic.app/proxy").json()["result"]
     while True:
         proxy = random.choice(upprox)
+        if len(upprox)<2:break
         try:
-            return requests.get("https://nfd2st-45669.csb.app").json
+            return requests.get("https://nfd2st-45669.csb.app",proxies=proxy).json()
             break
         except:
             upprox.remove(proxy)
             continue
+    return
