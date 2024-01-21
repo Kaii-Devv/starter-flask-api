@@ -41,7 +41,6 @@ def proxy():
         for proxy in proxylist:
             pool.submit(filterProxy,types+'://'+proxy,valid)
     return {'result':valid}
-@app.route("/uptime")
 def uptime():
     upprox = proxy()["result"]
     print(upprox)
@@ -55,10 +54,9 @@ def uptime():
             print(e)
             upprox.remove(proxyp)
     print(upprox)
-
-#def c():
-#    upprox = proxy()["result"]
-#    threading.Thread(target=uptime,args=(upprox,"")).start()
-#    return "prodess"
+@app.route("/uptime")
+def c():
+    threading.Thread(target=uptime).start()
+    return "prodess"
 
 
