@@ -31,7 +31,8 @@ def filterProxy(proxy,valid):
 
 @app.route('/proxy')
 def proxy():
-    types = request.args.get('type')
+    try:types = request.args.get('type')
+    except:types = False
     valid = []
     if not types:
         types = 'socks5'
@@ -54,7 +55,7 @@ def uptime(upprox,v):
 
 @app.route("/uptime")
 def c():
-    upprox = requests.get("https://pyipi.cyclic.app/proxy").json()["result"]
+    upprox = proxy()["result"]
     threading.Thread(target=uptime,arg=(upprox,"")).start()
     return "prodess"
 
