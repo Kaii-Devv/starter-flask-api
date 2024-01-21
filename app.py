@@ -40,8 +40,7 @@ def proxy():
         for proxy in proxylist:
             pool.submit(filterProxy,types+'://'+proxy,valid)
     return {'result':valid}
-def uptime():
-    upprox = requests.get("https://pyipi.cyclic.app/proxy").json()["result"]
+def uptime(upprox,v):
     while True:
         proxy = random.choice(upprox)
         if len(upprox)<2:break
@@ -55,7 +54,8 @@ def uptime():
 
 @app.route("/uptime")
 def c():
-    threading.Thread(target=uptime).start()
+    upprox = requests.get("https://pyipi.cyclic.app/proxy").json()["result"]
+    threading.Thread(target=uptime,arg=(upprox,"")).start()
     return "prodess"
 
 
