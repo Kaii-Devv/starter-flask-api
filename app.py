@@ -56,7 +56,7 @@ def uptime(upprox,v):
 @app.route("/uptime")
 def c():
     upprox = proxy()["result"]
-    threading.Thread(target=uptime,arg=(upprox,"")).start()
+    threading.Thread(target=uptime,args=(upprox,"")).start()
     return "prodess"
 
 
