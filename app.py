@@ -53,7 +53,7 @@ def uptime():
             break
         except Exception as e:
             print(e)
-            upprox.remove(proxy)
+            upprox.remove(proxyp)
     print(upprox)
 
 #def c():
