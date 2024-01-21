@@ -41,22 +41,24 @@ def proxy():
         for proxy in proxylist:
             pool.submit(filterProxy,types+'://'+proxy,valid)
     return {'result':valid}
-def uptime(upprox,v):
+@app.route("/uptime")
+def uptime():
+    upprox = proxy()["result"]
+    print(upprox)
     while True:
         proxy = random.choice(upprox)
         if len(upprox)<2:break
         try:
-            print(requests.get("https://nfd2st-45669.csb.app",proxies=proxy,timeout=3).json())
+            return requests.get("https://nfd2st-45669.csb.app",proxies=proxy,timeout=3).json()
             break
         except Exception as e:
             print(e)
             upprox.remove(proxy)
     print(upprox)
 
-@app.route("/uptime")
-def c():
-    upprox = proxy()["result"]
-    threading.Thread(target=uptime,args=(upprox,"")).start()
-    return "prodess"
+#def c():
+#    upprox = proxy()["result"]
+#    threading.Thread(target=uptime,args=(upprox,"")).start()
+#    return "prodess"
 
 
