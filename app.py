@@ -1,5 +1,9 @@
+
 from flask import Flask
 import os
+from module.bingai import get_images
+from module.proxi import filterProxy
+from module.gpt import AI
 from flask import Flask, send_file, request, jsonify, render_template, Response
 import requests, re, io,os,subprocess
 import random,time
@@ -8,24 +12,9 @@ from concurrent.futures import ThreadPoolExecutor,as_completed,wait,FIRST_COMPLE
 app = Flask(__name__)
 @app.route('/')
 def hello_world():
-    return 'Hello guys!<br>Myname Muhamad Idris<br>API ini full menggunakan flask python'
+    return send_file("index.html")
 
-def filterProxy(proxy,valid):
-    try:
-        proxies = {
-            'http': proxy,
-            'https': proxy
-                    }
-        response = requests.request(
-                    'GET',
-                    'https://ipinfo.io/json',
-                    proxies=proxies,timeout=3
-                    )
-        if not "ID" in response.json()['country']:
-            valid.append(proxies)
-    except Exception as e:pass
-
-@app.route('/proxy')
+@app.route('/api/proxy')
 def proxy():
     try:types = request.args.get('type')
     except:types = False
@@ -37,18 +26,29 @@ def proxy():
         for proxy in proxylist:
             pool.submit(filterProxy,types+'://'+proxy,valid)
     return {'result':valid}
-@app.route("/uptime")
+@app.route("/api/uptime")
 def uptime():
+    target = request.args.get("target")
+    if not target:return {'error':str(target)}
     upprox = proxy()["result"]
     while True:
         proxyp = random.choice(upprox)
         if len(upprox)<2:break
         try:
-            return requests.get("https://nfd2st-33517.csb.app",proxies=proxyp,timeout=3).json()
+            return requests.get(target,proxies=proxyp,timeout=3).text
             break
         except Exception as e:
-            print(e)
             upprox.remove(proxyp)
     return {"error":upprox}
+@app.route("/api/imagegen")
+def imagegen():
+    prompt = request.args.get("prompt").replace("+"," ")
+    if prompt:
+        return get_images(prompt)
+    else:return {"error":str(prompt)}
 
-
+@app.route("/api/gpt3")
+def gpt3():
+    prompt = request.args.get("prompt").split("+"," ")
+    respon = AI(prompt)
+    return {"response":respon.text,"session":respon.session}
