@@ -50,7 +50,7 @@ def imagegen():
 
 @app.route("/api/gpt3")
 def gpt3():
-    sesi = request.args.get("sessi")
+    sesi = request.args.get("session")
     prompt = request.args.get("prompt")
     cookie = requests.get("https://idristkj2.pythonanywhere.com/cookies").text
     try:respon = AI(prompt,session=sesi,cookie=cookie)
