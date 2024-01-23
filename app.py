@@ -1,14 +1,15 @@
-
-from flask import Flask
-import os
+# Muhamad Idris
 from module.bingai import get_images
 from module.proxi import filterProxy
-from module.gpt import AI
+from module.gpt import AI, send_otp
+from module.gmails import email
 from flask import Flask, send_file, request, jsonify, render_template, Response
 import requests, re, io,os,subprocess
 import random,time
 import threading
 from concurrent.futures import ThreadPoolExecutor,as_completed,wait,FIRST_COMPLETED
+my_email = "cemilaninn@gmail.com"
+email_pass = "qosjjhwdzdmscfmm"
 app = Flask(__name__)
 @app.route('/')
 def hello_world():
@@ -49,6 +50,29 @@ def imagegen():
 
 @app.route("/api/gpt3")
 def gpt3():
-    prompt = request.args.get("prompt").split("+"," ")
-    respon = AI(prompt)
-    return {"response":respon.text,"session":respon.session}
+    sesi = request.args.get("sessi")
+    prompt = request.args.get("prompt")
+    cookie = requests.get("https://idristkj2.pythonanywhere.com/cookies").text
+    try:respon = AI(prompt,session=sesi,cookie=cookie)
+    except:
+        send_otp(my_email)
+        time.sleep(2)
+        mail = email(my_email,email_pass)
+        if mail:
+            for cek in mail.msg:
+                try:
+                    url = re.search('https://(.*?)gmail.com',cek).group(0)
+                    ses=requests.Session()
+                    ses.get(url).url
+                    res = ses.get("https://ora.ai/api/auth/session")
+                    cookie = ";".join([ f"{key}={value}" for key, value in res.cookies.get_dict().items()])
+                    break
+                except Exception as e:pass
+        try:
+            respon = AI(prompt,session=sesi,cookie=cookie)
+        except:return {"error":""}
+        requests.get("https://idristkj2.pythonanywhere.com/cookies",params={'cok':cookie})
+    try:
+        return {"response":respon.text,"session":respon.session}
+    except:return "tes"
+#app.run(debug=True)

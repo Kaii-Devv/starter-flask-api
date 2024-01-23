@@ -13,3 +13,4 @@ bs4==0.0.1
 numpy
 PySocks==1.7.1
 requests==2.31.0
+db-sqlite3==0.0.1
