@@ -48,4 +48,4 @@ def get_images(prompt):
             break
     image_links = re.findall(r'src="([^"]+)"', response.text)
     normal_image_links = [link.split("?w=")[0] for link in image_links if not "svg" in link.split("?w=")[0]]
-    return {'result':normal_image_links}
+    return {'author':'Muhammad Idris','result':normal_image_links}

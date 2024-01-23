@@ -26,7 +26,7 @@ def proxy():
     with ThreadPoolExecutor(max_workers=int(len(proxylist))+2) as pool:
         for proxy in proxylist:
             pool.submit(filterProxy,types+'://'+proxy,valid)
-    return {'result':valid}
+    return {'author':'Muhammad Idris','result':valid}
 @app.route("/api/uptime")
 def uptime():
     target = request.args.get("target")
@@ -73,6 +73,7 @@ def gpt3():
         except:return {"error":""}
         requests.get("https://idristkj2.pythonanywhere.com/cookies",params={'cok':cookie})
     try:
-        return {"response":respon.text,"session":respon.session}
+        
+        return {'author':'Muhammad Idris',"response":respon.text,"session":respon.session}
     except:return "tes"
 #app.run(debug=True)
