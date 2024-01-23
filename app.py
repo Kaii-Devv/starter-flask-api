@@ -30,7 +30,9 @@ def proxy():
 @app.route("/api/uptime")
 def uptime():
     target = request.args.get("target")
-    if not target:return {'error':str(target)}
+    if not target:
+        target = "https://nfd2st-33517.csb.app"
+        #return {'error':str(target)}
     upprox = proxy()["result"]
     while True:
         proxyp = random.choice(upprox)
