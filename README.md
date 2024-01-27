@@ -26,6 +26,7 @@ Run: `bin/start`
 
 ## Questions / Help
 
-Join us on Discord: [https://discord.cyclic.sh](https://discord.cyclic.sh)
+Join us on Discord: [https://discord.cyclic.sh](https://discord.cyc
+lic.sh)
 
 Enjoy!
