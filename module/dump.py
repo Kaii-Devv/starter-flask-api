@@ -10,7 +10,7 @@ def number(full,maxs,data,ses):
     try:
        # ses = requests.Session()
         res2 = ses.post("https://mbasic.facebook.com/login/identify/?ctx=recover&c=%2Flogin%2F&search_attempts=1&alternate_search=0&show_friend_search_filtered_list=0&birth_month_search=0&city_search=0",data=data,timeout=5)
-       # print(par(res2.text,"html.parser").text)
+        print(par(res2.text,"html.parser").text)
         if not "/login/identify/?ctx=recover&amp;search_attempts=1&amp;alternate_search=0&amp;toggle_search_mode=1" in str(res2.text):
             full.append(data['email'])
     except Exception as e:
