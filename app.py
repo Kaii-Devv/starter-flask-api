@@ -3,6 +3,8 @@ from module.bingai import get_images
 from module.proxi import filterProxy
 from module.gpt import AI, send_otp
 from module.gmails import email
+from module.editor import generateImage, getToken, editImage, editVideo
+
 from module.dump import number, random_number
 from flask import Flask, send_file, request, jsonify, render_template, Response
 import requests
@@ -89,6 +91,16 @@ def gpt3():
         return {'author':'Muhammad Idris',"response":respon.text,"session":respon.session}
     except:
         return "tes"
+
+@app.route('/api/editor/vidio',methods=["POST"])
+def genimage():
+    data = request.files['video']
+    token = request.form['token']
+    prompt = request.form['prompt']
+    if data and token and prompt:
+        byts = data.read()
+        return {'progres':editVideo(prompt,token,byts)}
+    else:return {'error':'need data'}
 
 @app.route("/api/fb/dump/number")
 def dump_number():
