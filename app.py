@@ -92,7 +92,7 @@ def gpt3():
     except:
         return "tes"
 
-@app.route('/api/editor/vidio',methods=["POST"])
+@app.route('/api/editor/vidio',methods=["POST","GET"])
 def genimage():
     data = request.files['video']
     token = request.form['token']
