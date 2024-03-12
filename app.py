@@ -94,9 +94,9 @@ def gpt3():
 
 @app.route('/api/editor/vidio',methods=["POST"])
 def genimage():
-    data = request.files['video']
-    token = request.form['token']
-    prompt = request.form['prompt']
+    data = request.files.get('video')
+    token = request.form.get('token')
+    prompt = request.form.get('prompt')
     if data and token and prompt:
         byts = data.read()
         return {'progres':editVideo(prompt,token,byts)}
