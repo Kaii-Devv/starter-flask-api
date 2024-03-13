@@ -117,7 +117,7 @@ def editVideo(prompt,token,bytesVidio):
     predict = requests.post(
             'https://cf.res.lightricks.com/v2/api/vid2vid/predict',
             headers={'Host': 'cf.res.lightricks.com', 'x-request-id': reqId, 'authorization': 'Bearer '+token, 'x-lightricks-auth-token': token, 'x-app-id': 'com.lightricks.videoleap', 'x-build-number': '1.25.1', 'x-platform': 'android', 'x-lightricks-subscriber': 'true', 'x-client-user-id': clnId, 'content-type': 'application/json; charset=utf-8', 'content-length': '903', 'accept-encoding': 'gzip', 'user-agent': 'okhttp/4.10.0'},
-            json={"input_ids": {"input_video": formt['upload_url'].split('?')[0]},"params": {"cn_params": {"preset": "gaming001","prompt": prompt,"encrypted_preset":"g"}}})
+            json={"input_ids": {"input_video": formt['upload_url'].split('?')[0]},"params": {"cn_params": {"preset": "selfiead001","prompt": prompt,"encrypted_preset":"g"},"propagation_type":"NONE","cn_indice_select_mode":"equidistant"}})
     status = predict.json()['status_url']
     return status
     # while True:
