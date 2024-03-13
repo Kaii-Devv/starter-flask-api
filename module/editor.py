@@ -8,7 +8,7 @@ import time
 
 
 
-def generateImage(prompt,style_id,token):
+def generateImage(prompt,token,style_id='8897ddfe-2f22-4f96-927f-a2589a6d9098'):
     result = requests.post(
                 'https://txt2img.res.lightricks.com/txt2img/v1/api/generate',
                 params={'prompt':prompt,'style_id':style_id,'priority':'true','high_quality':'true','is_subscriber':'true'},
@@ -135,4 +135,5 @@ def editVideo(prompt,token,bytesVidio):
     #             print(progres)
     #             break
     #     except:break
+print(getToken(v=2,email='jfjrjrjrjrjr'))
 #print(editVideo('snow, light, night',getToken(v=2,email='jfjdjdjj'),open('/storage/emulated/0/DCIM/Camera/232e82666493a9b96bbad258a5fcbdb0.mp4','rb').read()))

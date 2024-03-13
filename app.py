@@ -56,8 +56,9 @@ def uptime():
 @app.route("/api/imagegen")
 def imagegen():
     prompt = request.args.get("prompt").replace("+"," ")
+    token = request.args.get("token")
     if prompt:
-        return get_images(prompt)
+        return generateImage(prompt,token)
     else:
         return {"error":str(prompt)}
 
