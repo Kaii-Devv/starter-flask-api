@@ -135,5 +135,5 @@ def editVideo(prompt,token,bytesVidio):
     #             print(progres)
     #             break
     #     except:break
-print(getToken(v=2,email='jfjrjrjrjrjr'))
+# print(getToken(v=2,email='jfjrjrjrjrjr'))
 #print(editVideo('snow, light, night',getToken(v=2,email='jfjdjdjj'),open('/storage/emulated/0/DCIM/Camera/232e82666493a9b96bbad258a5fcbdb0.mp4','rb').read()))
