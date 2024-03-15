@@ -4,7 +4,8 @@ from module.proxi import filterProxy
 from module.gpt import AI, send_otp
 from module.gmails import email
 from module.editor import generateImage, getToken, editImage, editVideo
-
+import boto3
+import json
 from module.dump import number, random_number
 from flask import Flask, send_file, request, jsonify, render_template, Response
 import requests
@@ -17,11 +18,24 @@ import threading
 from concurrent.futures import ThreadPoolExecutor,as_completed,wait,FIRST_COMPLETED
 email_pass =     "qosjjhwdzdmscfmm"
 my_email   = "cemilaninn@gmail.com"
+s3 = boto3.client('s3')
 app = Flask(__name__)
 @app.route('/')
 def hello_world():
     return send_file("index.html")
-
+def upData(data):
+    s3.put_object(
+        Body=json.dumps(data),
+        Bucket="cyclic-cautious-pear-cod-eu-west-2",
+        Key="database.json"
+    )
+def getData():
+    my_file = s3.get_object(
+        Bucket="cyclic-cautious-pear-cod-eu-west-2",
+        Key="database.json"
+    )
+    return json.loads(my_file['Body'].read())
+upData({'gpt': {'cookies':''}})
 @app.route('/api/proxy')
 def proxy():
     try:
@@ -61,7 +75,7 @@ def imagegen():
         return generateImage(prompt.replace("+"," "),token)
     else:
         return {"error":str(prompt)}
-
+@app.route('/api/token')
 def toks():
     v = request.args.get('v')
     mail = request.args.get('secmail')
@@ -71,12 +85,14 @@ def toks():
         return getToken(v=int(v))
     else:
         return "need params v"
-
+@app.route('/cookies')
+def ck():
+    return getData()['gpt']['cookies']
 @app.route("/api/gpt3")
 def gpt3():
     sesi = request.args.get("session")
     prompt = request.args.get("prompt")
-    cookie = requests.get("https://idristkj2.pythonanywhere.com/cookies").text
+    cookie = getData()['gpt']['cookies']
     try:
         respon = AI(prompt,session=sesi,cookie=cookie)
     except:
@@ -97,7 +113,7 @@ def gpt3():
             respon = AI(prompt,session=sesi,cookie=cookie)
         except:
             return {"error":""}
-        requests.get("https://idristkj2.pythonanywhere.com/cookies",params={'cok':cookie})
+        upData({'gpt':{'cookies':cookie}})
     try:
         return {'author':'Muhammad Idris',"response":respon.text,"session":respon.session}
     except:
