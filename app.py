@@ -55,12 +55,22 @@ def uptime():
 
 @app.route("/api/imagegen")
 def imagegen():
-    prompt = request.args.get("prompt").replace("+"," ")
+    prompt = request.args.get("prompt")
     token = request.args.get("token")
     if prompt:
-        return generateImage(prompt,token)
+        return generateImage(prompt.replace("+"," "),token)
     else:
         return {"error":str(prompt)}
+
+def toks():
+    v = request.args.get('v')
+    mail = request.args.get('secmail')
+    if v and mail:
+        return getToken(v=int(v),email=mail)
+    elif v:
+        return getToken(v=int(v))
+    else:
+        return "need params v"
 
 @app.route("/api/gpt3")
 def gpt3():
