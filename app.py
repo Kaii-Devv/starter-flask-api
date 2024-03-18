@@ -53,7 +53,7 @@ def get_s3_object_url(object_key):
         print(f"Error: {e}")
         return None
 
-upData({'gpt': {'cookies':''}})
+upData(json.dumps({'gpt': {'cookies':''}}))
 @app.route('/api/proxy')
 def proxy():
     try:
