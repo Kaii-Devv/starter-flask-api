@@ -109,9 +109,10 @@ def imagegen():
 @app.route('/content/<patch>')
 def konten(patch):
    # return send_file(getData(key=patch), mimetype='image/jpeg')
+    bit = getData(key=patch)
     try:
-        return getData(key=patch), 200, {'Content-Type': 'image/jpeg'}
-    except Exception as e:return str(e)
+        return bit , 200, {'Content-Type': 'image/jpeg'}
+    except Exception as e:return {type(bit):str(bit)}
 
 @app.route('/api/token')
 def toks():
