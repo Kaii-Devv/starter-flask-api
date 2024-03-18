@@ -35,7 +35,7 @@ def getData(key="database.json"):
         Bucket="cyclic-cautious-pear-cod-eu-west-2",
         Key=key
     )
-    return json.loads(my_file['Body'].read())
+    return my_file['Body'].read()
 
 def get_s3_object_url(object_key):
     """
@@ -126,12 +126,12 @@ def toks():
         return "need params v"
 @app.route('/cookies')
 def ck():
-    return getData()['gpt']['cookies']
+    return json.loads(getData())['gpt']['cookies']
 @app.route("/api/gpt3")
 def gpt3():
     sesi = request.args.get("session")
     prompt = request.args.get("prompt")
-    cookie = getData()['gpt']['cookies']
+    cookie = json.loads(getData())['gpt']['cookies']
     try:
         respon = AI(prompt,session=sesi,cookie=cookie)
     except:
