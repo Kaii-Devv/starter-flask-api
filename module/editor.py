@@ -38,7 +38,7 @@ def generateImagev2(prompt):
     }
     response = requests.post("https://api.hotpot.ai/art-maker-sdte-zmjbcrr", data=data, headers=headers)
     try:
-        return response.text
+        return eval(response.text)
     except Exception as e:print(e);return str(e)
     
 def getToken(v=1,email = "".join([random.choice(string.ascii_lowercase) for x in range(10)])):
