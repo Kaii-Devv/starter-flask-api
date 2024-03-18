@@ -101,7 +101,7 @@ def imagegen():
         try:
             result = generateImagev2(prompt.replace("+"," "))
             upData(requests.get(result,stream=True).content,key=result.split('/')[-1])
-            return {'result':'succes','patch':'/content/'+result.split('/')[-1]}
+            return {'author':'Muhamad Idris','result':'succes','patch':'/content/'+result.split('/')[-1]}
         except Exception as e:return {'error':str(e)}
     else:
         return {"error":str(prompt)}
