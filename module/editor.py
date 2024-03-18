@@ -36,7 +36,7 @@ def generateImagev2(prompt):
       'Referer': "https://hotpot.ai/",
       'Accept-Language': "id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7,su;q=0.6"
     }
-    response = requests.post("https://api.hotpot.ai/art-maker-sdte-zmjbcrr", data=data, headers=headers)
+    response = requests.post("https://api.hotpot.ai/art-premium-test1", data=data, headers=headers)
     try:
         return eval(response.text)
     except Exception as e:print(e);raise(e)
