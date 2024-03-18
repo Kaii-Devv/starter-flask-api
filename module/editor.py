@@ -18,6 +18,40 @@ def generateImage(prompt,token,style_id='8897ddfe-2f22-4f96-927f-a2589a6d9098'):
         return result['result_url']
     except:
         return result['error']
+def generateImagev2(prompt):
+    ids='8-'+str(uuid.uuid4())
+    data = {
+    'seedValue':'null',
+     'inputText':prompt, 
+      'width':'512',
+      'height':'512', 
+      'styleId':'0',
+      'styleLabel':'Photo General 1',
+      'isPrivate':'true',
+      'price':'0',
+      'requestId':ids,
+      'resultUrl':'https://hotpotmedia.s3.us-east-2.amazonaws.com/'+ids+'.png'
+    }
+    
+    headers = {
+      'User-Agent': "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
+      'Content-Type': "application/multipart-formdata",
+      'sec-ch-ua': "\"Chromium\";v=\"116\", \"Not)A;Brand\";v=\"24\", \"Google Chrome\";v=\"116\"",
+      'Api-Token': "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTA3NDIzOTUsImV4cCI6MTcxMDgyODc5NX0.LL2vEbQiPaJ8g2lKQdgIFpkl_HCiM4GBO4nZnkSd3bw",
+      'sec-ch-ua-mobile': "?0",
+      'Authorization': "hotpot-t2mJbCr8292aQzp8CnEPaK",
+      'sec-ch-ua-platform': "\"Linux\"",
+      'Origin': "https://hotpot.ai",
+      'Sec-Fetch-Site': "same-site",
+      'Sec-Fetch-Mode': "cors",
+      'Sec-Fetch-Dest': "empty",
+      'Referer': "https://hotpot.ai/",
+      'Accept-Language': "id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7,su;q=0.6"
+    }
+    response = requests.post("https://api.hotpot.ai/art-maker-sdte-zmjbcrr", data=data, headers=headers)
+    try:
+        return eval(response.text)
+    except Exception as e:return str(e)
     
 def getToken(v=1,email = "".join([random.choice(string.ascii_lowercase) for x in range(10)])):
     email += '@1secmail.com'

@@ -3,7 +3,7 @@ from module.bingai import get_images
 from module.proxi import filterProxy
 from module.gpt import AI, send_otp
 from module.gmails import email
-from module.editor import generateImage, getToken, editImage, editVideo
+from module.editor import generateImage, getToken, editImage, editVideo, generateImagev2
 import boto3
 import json
 from module.dump import number, random_number
@@ -19,6 +19,7 @@ from concurrent.futures import ThreadPoolExecutor,as_completed,wait,FIRST_COMPLE
 email_pass =     "qosjjhwdzdmscfmm"
 my_email   = "cemilaninn@gmail.com"
 s3 = boto3.client('s3')
+#exit(dir(s3))
 app = Flask(__name__)
 @app.route('/')
 def hello_world():
@@ -46,7 +47,7 @@ def get_s3_object_url(object_key):
         str: URL dari objek di Amazon S3.
     """
     try:
-        url = s3.generate_presigned_url("get_object", Params={"Bucket": "cyclic-cautious-pear-cod-eu-west-2", "Key": object_key}, ExpiresIn=3600)
+        url = s3.download_file("get_object", Params={"Bucket": "cyclic-cautious-pear-cod-eu-west-2", "Key": object_key}, ExpiresIn=3600)
         return url
     except Exception as e:
         print(f"Error: {e}")
@@ -90,6 +91,13 @@ def imagegen():
     token = request.args.get("token")
     if prompt:
         return generateImage(prompt.replace("+"," "),token)
+    else:
+        return {"error":str(prompt)}
+@app.route("/api/imagegenv2")
+def imagegen():
+    prompt = request.args.get("prompt")
+    if prompt:
+        return generateImagev2(prompt.replace("+"," "))
     else:
         return {"error":str(prompt)}
 @app.route('/api/token')
