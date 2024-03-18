@@ -23,7 +23,7 @@ def generateImagev2(prompt):
     data = {'seedValue':'null','inputText':prompt, 'width':'512','height':'512', 'styleId':'0','styleLabel':'Photo General 1','isPrivate':'true','price':'0','requestId':ids,'resultUrl':'https://hotpotmedia.s3.us-east-2.amazonaws.com/'+ids+'.png'}
     headers = {
       'User-Agent': "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
-      'Content-Type': "application/multipart-formdata",
+      #'Content-Type': "application/multipart-formdata",
       'sec-ch-ua': "\"Chromium\";v=\"116\", \"Not)A;Brand\";v=\"24\", \"Google Chrome\";v=\"116\"",
       'Api-Token': "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTA3NDIzOTUsImV4cCI6MTcxMDgyODc5NX0.LL2vEbQiPaJ8g2lKQdgIFpkl_HCiM4GBO4nZnkSd3bw",
       'sec-ch-ua-mobile': "?0",
