@@ -24,16 +24,16 @@ app = Flask(__name__)
 @app.route('/')
 def hello_world():
     return send_file("index.html")
-def upData(data):
+def upData(data,key="database.json"):
     s3.put_object(
         Body=json.dumps(data),
         Bucket="cyclic-cautious-pear-cod-eu-west-2",
-        Key="database.json"
+        Key=Key
     )
-def getData():
+def getData(key="database.json"):
     my_file = s3.get_object(
         Bucket="cyclic-cautious-pear-cod-eu-west-2",
-        Key="database.json"
+        Key=key
     )
     return json.loads(my_file['Body'].read())
 
@@ -93,13 +93,23 @@ def imagegenv2():
         return generateImage(prompt.replace("+"," "),token)
     else:
         return {"error":str(prompt)}
+
 @app.route("/api/imagegenv2")
 def imagegen():
     prompt = request.args.get("prompt")
     if prompt:
-        return generateImagev2(prompt.replace("+"," "))
+        try:
+            result = generateImagev2(prompt.replace("+"," "))
+            upData(requests.get(result,stream=True).content,key=result.split('/')[-1])
+            return {'result':'succes','patch':'/content/'+result.split('/')[-1]}
+        except:return {'error':prompt}
     else:
         return {"error":str(prompt)}
+
+@app.route('/content/<patch>')
+def konten(patch):
+    return send_file(getData(key=patch), mimetype='image/jpeg')
+
 @app.route('/api/token')
 def toks():
     v = request.args.get('v')
