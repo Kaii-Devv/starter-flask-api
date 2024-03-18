@@ -37,21 +37,6 @@ def getData():
     )
     return json.loads(my_file['Body'].read())
 
-def get_s3_object_url(object_key):
-    """
-    Mengambil URL dari objek di Amazon S3.
-    Args:
-        bucket_name (str): Nama bucket di Amazon S3.
-        object_key (str): Kunci objek (nama file) di dalam bucket.
-    Returns:
-        str: URL dari objek di Amazon S3.
-    """
-    try:
-        url = s3.download_file("get_object", Params={"Bucket": "cyclic-cautious-pear-cod-eu-west-2", "Key": object_key}, ExpiresIn=3600)
-        return url
-    except Exception as e:
-        print(f"Error: {e}")
-        return None
 
 upData({'gpt': {'cookies':''}})
 @app.route('/api/proxy')
@@ -94,7 +79,7 @@ def imagegen():
     else:
         return {"error":str(prompt)}
 @app.route("/api/imagegenv2")
-def imagegen():
+def imagegenv2():
     prompt = request.args.get("prompt")
     if prompt:
         return generateImagev2(prompt.replace("+"," "))
