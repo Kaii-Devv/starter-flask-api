@@ -26,7 +26,7 @@ def hello_world():
     return send_file("index.html")
 def upData(data,key="database.json"):
     s3.put_object(
-        Body=json.dumps(data),
+        Body=data,
         Bucket="cyclic-cautious-pear-cod-eu-west-2",
         Key=key
     )
@@ -148,7 +148,7 @@ def gpt3():
             respon = AI(prompt,session=sesi,cookie=cookie)
         except:
             return {"error":""}
-        upData({'gpt':{'cookies':cookie}})
+        upData(json.dumps({'gpt':{'cookies':cookie}}))
     try:
         return {'author':'Muhammad Idris',"response":respon.text,"session":respon.session}
     except:
