@@ -112,7 +112,7 @@ def toks():
         return "need params v"
 @app.route('/cookies')
 def ck():
-    return str(get_s3_object_url("database.json")) #getData()['gpt']['cookies']
+    return getData()['gpt']['cookies']
 @app.route("/api/gpt3")
 def gpt3():
     sesi = request.args.get("session")

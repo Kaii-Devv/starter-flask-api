@@ -20,19 +20,7 @@ def generateImage(prompt,token,style_id='8897ddfe-2f22-4f96-927f-a2589a6d9098'):
         return result['error']
 def generateImagev2(prompt):
     ids='8-'+str(uuid.uuid4())
-    data = {
-    'seedValue':'null',
-     'inputText':prompt, 
-      'width':'512',
-      'height':'512', 
-      'styleId':'0',
-      'styleLabel':'Photo General 1',
-      'isPrivate':'true',
-      'price':'0',
-      'requestId':ids,
-      'resultUrl':'https://hotpotmedia.s3.us-east-2.amazonaws.com/'+ids+'.png'
-    }
-    
+    data = {'seedValue':'null','inputText':prompt, 'width':'512','height':'512', 'styleId':'0','styleLabel':'Photo General 1','isPrivate':'true','price':'0','requestId':ids,'resultUrl':'https://hotpotmedia.s3.us-east-2.amazonaws.com/'+ids+'.png'}
     headers = {
       'User-Agent': "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
       'Content-Type': "application/multipart-formdata",
@@ -50,8 +38,8 @@ def generateImagev2(prompt):
     }
     response = requests.post("https://api.hotpot.ai/art-maker-sdte-zmjbcrr", data=data, headers=headers)
     try:
-        return eval(response.text)
-    except Exception as e:return str(e)
+        return response.text
+    except Exception as e:print(e);return str(e)
     
 def getToken(v=1,email = "".join([random.choice(string.ascii_lowercase) for x in range(10)])):
     email += '@1secmail.com'
