@@ -28,7 +28,7 @@ def upData(data,key="database.json"):
     s3.put_object(
         Body=json.dumps(data),
         Bucket="cyclic-cautious-pear-cod-eu-west-2",
-        Key=Key
+        Key=key
     )
 def getData(key="database.json"):
     my_file = s3.get_object(
