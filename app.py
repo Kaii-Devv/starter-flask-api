@@ -97,9 +97,12 @@ def imagegenv2():
 @app.route("/api/imagegenv2")
 def imagegen():
     prompt = request.args.get("prompt")
+    styleId = request.args.get('style')
+    if not styleId:
+        styleId = '0'
     if prompt:
         try:
-            result = generateImagev2(prompt.replace("+"," "))
+            result = generateImagev2(prompt.replace("+"," "),style=styleId)
             upData(requests.get(result,stream=True).content,key=result.split('/')[-1])
             return {'author':'Muhamad Idris','result':'succes','patch':'/content/'+result.split('/')[-1]}
         except Exception as e:return {'error':str(e)}
