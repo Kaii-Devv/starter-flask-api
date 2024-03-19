@@ -74,7 +74,7 @@ def all():
     response = s3.list_objects_v2(Bucket="cyclic-cautious-pear-cod-eu-west-2",FetchOwner=False)
     x = []
     for obj in response["Contents"]:x.append(str(obj))
-    return x
+    return str(x)
 
 @app.route("/api/uptime")
 def uptime():
