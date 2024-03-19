@@ -25,7 +25,7 @@ def generateImagev2(prompt):
       'User-Agent': "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
       #'Content-Type': "application/multipart-formdata",
       'sec-ch-ua': "\"Chromium\";v=\"116\", \"Not)A;Brand\";v=\"24\", \"Google Chrome\";v=\"116\"",
-      'Api-Token': "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTA3NDIzOTUsImV4cCI6MTcxMDgyODc5NX0.LL2vEbQiPaJ8g2lKQdgIFpkl_HCiM4GBO4nZnkSd3bw",
+      'Api-Token': "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MTA3NzE4MDQsImV4cCI6MTc0MTkzOTk1M30.I9vjxkb7___eZJlflZ9Osszi1JJJztG8D8O3k_TsCgg",
       'sec-ch-ua-mobile': "?0",
       'Authorization': "hotpot-t2mJbCr8292aQzp8CnEPaK",
       'sec-ch-ua-platform': "\"Linux\"",
@@ -39,7 +39,7 @@ def generateImagev2(prompt):
     response = requests.post("https://api.hotpot.ai/art-premium-test1", data=data, headers=headers)
     try:
         return eval(response.text)
-    except Exception as e:print(e);raise(e)
+    except Exception as e:print(e);print(response.text);raise(e)
     
 def getToken(v=1,email = "".join([random.choice(string.ascii_lowercase) for x in range(10)])):
     email += '@1secmail.com'
