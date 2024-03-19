@@ -75,7 +75,7 @@ def all():
     x = []
     for obj in response["Contents"]:
         try:
-            x.append(json.loads(obj)['key'])
+            x.append(type(obj))
         except:pass
     return {'resut':x}
 
