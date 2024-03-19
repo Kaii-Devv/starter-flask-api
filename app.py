@@ -75,7 +75,7 @@ def all():
     x = []
     for obj in response["Contents"]:
         try:
-            x.append(str(type(obj)))
+            x.append(obj[0])
         except:pass
     return {'resut':x}
 
