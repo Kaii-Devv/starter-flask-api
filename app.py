@@ -74,9 +74,8 @@ def all():
     response = s3.list_objects_v2(Bucket="cyclic-cautious-pear-cod-eu-west-2",FetchOwner=False)
     x = []
     for obj in response["Contents"]:
-        try:
+        if 'png' in obj['key'].split('.'):
             x.append('/content/'+obj['Key'])
-        except:pass
     return {'resut':x}
 
 @app.route("/api/uptime")
