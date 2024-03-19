@@ -72,8 +72,9 @@ def proxy():
 @app.route('/content/all_image_result.json')
 def all():
     response = s3.list_objects_v2(Bucket="cyclic-cautious-pear-cod-eu-west-2",FetchOwner=False)
-    res = [obj['key'] for obj in response["Contents"] if obj]
-    return res
+    x = []
+    for obj in response["Contents"]:x.append(str(obj))
+    return x
 
 @app.route("/api/uptime")
 def uptime():
