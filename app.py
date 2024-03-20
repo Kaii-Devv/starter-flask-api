@@ -27,12 +27,12 @@ def hello_world():
 def upData(data,key="database.json"):
     s3.put_object(
         Body=data,
-        Bucket="mcyclic-gifted-red-hem-ap-northeast-2",
+        Bucket="cyclic-gifted-red-hem-ap-northeast-2",
         Key=key
     )
 def getData(key="database.json"):
     my_file = s3.get_object(
-        Bucket="mcyclic-gifted-red-hem-ap-northeast-2",
+        Bucket="cyclic-gifted-red-hem-ap-northeast-2",
         Key=key
     )
     return my_file['Body'].read()
@@ -47,7 +47,7 @@ def get_s3_object_url(object_key):
         str: URL dari objek di Amazon S3.
     """
     try:
-        url = s3.download_file("get_object", Params={"Bucket": "mcyclic-gifted-red-hem-ap-northeast-2", "Key": object_key}, ExpiresIn=3600)
+        url = s3.download_file("get_object", Params={"Bucket": "cyclic-gifted-red-hem-ap-northeast-2", "Key": object_key}, ExpiresIn=3600)
         return url
     except Exception as e:
         print(f"Error: {e}")
@@ -71,7 +71,7 @@ def proxy():
 
 @app.route('/content/all_image_result.json')
 def all():
-    response = s3.list_objects_v2(Bucket="mcyclic-gifted-red-hem-ap-northeast-2",FetchOwner=False)
+    response = s3.list_objects_v2(Bucket="cyclic-gifted-red-hem-ap-northeast-2",FetchOwner=False)
     x = []
     for obj in response["Contents"]:
         if 'png' in obj['Key'].split('.'):
