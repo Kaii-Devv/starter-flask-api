@@ -106,9 +106,13 @@ def imagegenv2():
 @app.route("/api/imagegenv2")
 def imagegen():
     prompt = request.args.get("prompt")
+    
     styleId = request.args.get('style')
+    size = request.args.get('size')
     if not styleId:
         styleId = '0'
+    if not size:
+        size='1:1'
     if prompt:
         try:
             result = generateImagev2(prompt.replace("+"," "),style=styleId)
