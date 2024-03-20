@@ -33,4 +33,4 @@ def get_size(aspect_ratio_string):
         'height': height,
         'max': max_size
     }
-print(get_size("1:16"))
+print(get_size("3:2"))
