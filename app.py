@@ -21,9 +21,9 @@ my_email   = "cemilaninn@gmail.com"
 s3 = boto3.client('s3')
 #exit(dir(s3))
 app = Flask(__name__)
-@app.route('/')
-def hello_world():
-    return send_file("index.html")
+#@app.route('/')
+#def hello_world():
+   # return send_file("index.html")
 def upData(data,key="database.json"):
     s3.put_object(
         Body=data,
@@ -38,14 +38,6 @@ def getData(key="database.json"):
     return my_file['Body'].read()
 
 def get_s3_object_url(object_key):
-    """
-    Mengambil URL dari objek di Amazon S3.
-    Args:
-        bucket_name (str): Nama bucket di Amazon S3.
-        object_key (str): Kunci objek (nama file) di dalam bucket.
-    Returns:
-        str: URL dari objek di Amazon S3.
-    """
     try:
         url = s3.download_file("get_object", Params={"Bucket": "cyclic-gifted-red-hem-ap-northeast-2", "Key": object_key}, ExpiresIn=3600)
         return url
