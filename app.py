@@ -111,8 +111,10 @@ def imagegen():
             if size != '1:1':
                 upData(requests.get(result,stream=True).content,key=result.split('/')[-1])
                 res = {'author':'Muhamad Idris','result':'succes','patch':'/content/'+result.split('/')[-1]}
+                return res
             else:
                 res =  {'author':'Muhamad Idris','result':'succes','url':result.split('/')}
+                return res
         except Exception as e:return {'error':str(e)}
     else:
         return {"error":str(prompt)}
