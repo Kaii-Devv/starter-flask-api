@@ -213,6 +213,6 @@ def dump_number():
                 number(full,int(maxs),data,ses)
     return {'author':'Muhammad Idris','result':full}
     
-#app.run(debug=True)
+app.run(debug=True)
     
 
