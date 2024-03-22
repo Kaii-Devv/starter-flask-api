@@ -108,8 +108,11 @@ def imagegen():
     if prompt:
         try:
             result = generateImagev2(prompt.replace("+"," "),style=styleId,size=size)
-            upData(requests.get(result,stream=True).content,key=result.split('/')[-1])
-            return {'author':'Muhamad Idris','result':'succes','patch':'/content/'+result.split('/')[-1]}
+            if size != '1:1':
+                upData(requests.get(result,stream=True).content,key=result.split('/')[-1])
+                res = {'author':'Muhamad Idris','result':'succes','patch':'/content/'+result.split('/')[-1]}
+            else:
+                res =  {'author':'Muhamad Idris','result':'succes','url':result.split('/')}
         except Exception as e:return {'error':str(e)}
     else:
         return {"error":str(prompt)}
