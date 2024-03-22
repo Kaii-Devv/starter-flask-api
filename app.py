@@ -113,7 +113,7 @@ def imagegen():
                 res = {'author':'Muhamad Idris','result':'succes','patch':'/content/'+result.split('/')[-1]}
                 return res
             else:
-                res =  {'author':'Muhamad Idris','result':'succes','url':result.split('/')}
+                res =  {'author':'Muhamad Idris','result':'succes','url':result}
                 return res
         except Exception as e:return {'error':str(e)}
     else:
@@ -218,6 +218,6 @@ def dump_number():
                 number(full,int(maxs),data,ses)
     return {'author':'Muhammad Idris','result':full}
     
-app.run(debug=True)
+#app.run(debug=True)
     
 
