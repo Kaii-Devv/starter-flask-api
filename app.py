@@ -110,7 +110,7 @@ def imagegen():
             instan = request.args.get('instan')
             result = generateImagev2(prompt.replace("+"," "),style=styleId,size=size)
             if instan and bool(instan):
-                return requests.get(result,stream=True).iter_content(chunk_size=1000) , 200, {'Content-Type': 'image/jpeg'}
+                return requests.get(result,stream=True).content , 200, {'Content-Type': 'image/jpeg'}
             upData(requests.get(result,stream=True).content,key=result.split('/')[-1])
             res = {'author':'Muhamad Idris','result':'succes','url':'https://pyapi.cyclic.app/content/'+result.split('/')[-1]}
             return res
