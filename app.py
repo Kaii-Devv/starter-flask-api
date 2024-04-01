@@ -141,9 +141,12 @@ def ck():
 def gpt3():
     sesi = request.args.get("session")
     prompt = request.args.get("prompt")
+    bot = request.args.get("bot")
+    if not bot:
+        bot = 'eb36b773-8c12-45d6-b6c2-ddffedef5210'
     cookie = json.loads(getData())['gpt']['cookies']
     try:
-        respon = AI(prompt,session=sesi,cookie=cookie)
+        respon = AI(prompt,session=sesi,cookie=cookie,bot = bot)
     except:
         send_otp(my_email)
         time.sleep(2)
@@ -159,7 +162,7 @@ def gpt3():
                     break
                 except Exception as e:pass
         try:
-            respon = AI(prompt,session=sesi,cookie=cookie)
+            respon = AI(prompt,session=sesi,cookie=cookie,bot = bot)
         except:
             return {"error":""}
         upData(json.dumps({'gpt':{'cookies':cookie}}))

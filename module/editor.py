@@ -79,7 +79,7 @@ def generateImagev2(prompt,style='0',size='1:1'):
     try:
         return eval(response.text)
     except Exception as e:print(e);print(response.text);raise(e)
-    
+print(generateImagev2('cool man'))
 def getToken(v=1,email = "".join([random.choice(string.ascii_lowercase) for x in range(10)])):
     email += '@1secmail.com'
     try:
