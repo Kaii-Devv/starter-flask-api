@@ -80,11 +80,7 @@ def generateImagev2(prompt,style='0',size='1:1'):
     try:
         return eval(response.text)
     except Exception as e:print(e);print(response.text);raise(e)
-<<<<<<< HEAD
-print(generateImagev2('cool man'))
-=======
-#print(generateImagev2('a virgin korean girl was naked and very sweaty',style='0',size='1:1'))
->>>>>>> refs/remotes/origin/main
+
 def getToken(v=1,email = "".join([random.choice(string.ascii_lowercase) for x in range(10)])):
     email += '@1secmail.com'
     try:

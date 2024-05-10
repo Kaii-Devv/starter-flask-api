@@ -19,11 +19,9 @@ from concurrent.futures import ThreadPoolExecutor,as_completed,wait,FIRST_COMPLE
 email_pass =     "qosjjhwdzdmscfmm"
 my_email   = "cemilaninn@gmail.com"
 s3 = boto3.client('s3')
-#exit(dir(s3))
+
 app = Flask(__name__)
-#@app.route('/')
-#def hello_world():
-   # return send_file("index.html")
+
 def upData(data,key="database.json"):
     s3.put_object(
         Body=data,
@@ -220,6 +218,7 @@ def dump_number():
                 number(full,int(maxs),data,ses)
     return {'author':'Muhammad Idris','result':full}
     
-#app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
     
 
